@@ -5,7 +5,7 @@
     "description": "Una extension para limpiar las guias vencidas rapidamente de una empresa que este registrada en SUNAGRO",
     "browser_action": {
       "default_icon": "icons/croissant128x128.png",
-      "default_popup": "popup/popup.html"
+      "default_popup": "popup.html"
     },
     "permissions": ["activeTab"],
     "content_scripts": [
