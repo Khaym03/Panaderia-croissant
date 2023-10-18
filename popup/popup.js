@@ -1,11 +1,14 @@
 const $ = selector => document.querySelector(`${selector}`)
-const getGuides = () => JSON.parse(localStorage.getItem('guias'))
+const getParsedGuides = () => JSON.parse(localStorage.getItem('guias'))
+const getGuides = () => localStorage.getItem('guias')
 const setGuides = value => localStorage.setItem('guias', JSON.stringify(value))
 const stringConcater = arr => arr.reduce((prev, cur) => `${prev} ${cur}`, '')
 
 const re_render = () => {
-  $('#counter').innerHTML = getGuides() ? getGuides().length : 0
-  $('#guias div').innerHTML = getGuides() ? stringConcater(getGuides()) : ''
+  $('#counter').innerHTML = getParsedGuides() ? getParsedGuides().length : 0
+  $('#guias div').innerHTML = getParsedGuides()
+    ? stringConcater(getParsedGuides())
+    : ''
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(
           tabs[0].id,
-          { action: 'clear', guias: localStorage.getItem('guias') },
+          { action: 'clear', guias: getGuides() }, // the way how is passed the 'guides is important so dont use the getGuides func to dont trigger an error'
           function (response) {
             if (response) {
               setGuides(response.guias)
